@@ -44,7 +44,7 @@ def process_sales_data(sales_csv, orders_dir):
     # Insert a new "TOTAL PRICE" column into the DataFrame
     df['TOTAL PRICE'] = df['ITEM QUANTITY'] * df['ITEM PRICE']
     # Remove columns from the DataFrame that are not needed
-    columns_to_keep = ['ORDER ID', 'ITEM NUMBER', 'PRODUCT CODE', 'PRODUCT NAME', 'ITEM QUANTITY', 'ITEM PRICE', 'TOTAL PRICE']
+    columns_to_keep = ['ORDER ID', 'ITEM NUMBER', 'PRODUCT CODE', 'PRODUCT LINE', 'ITEM QUANTITY', 'ITEM PRICE', 'TOTAL PRICE']
     df = df[columns_to_keep]   
     # Group the rows in the DataFrame by order ID
     grouped = df.groupby('ORDER ID')
@@ -56,7 +56,7 @@ def process_sales_data(sales_csv, orders_dir):
         order_df = order_df.sort_values(by='ITEM NUMBER')
         # Append a "GRAND TOTAL" row
         grand_total = order_df['TOTAL PRICE'].sum()
-        grand_total_row = pd.DataFrame({'ITEM NUMBER': [''], 'PRODUCT CODE': [''], 'PRODUCT NAME': [''], 'ITEM QUANTITY': [''], 'ITEM PRICE': [''], 'TOTAL PRICE': [grand_total]})
+        grand_total_row = pd.DataFrame({'ITEM NUMBER': [''], 'PRODUCT CODE': [''], 'PRODUCT LINE': [''], 'ITEM QUANTITY': [''], 'ITEM PRICE': [''], 'TOTAL PRICE': [grand_total]})
         order_df = pd.concat([order_df, grand_total_row], ignore_index=True)
         # Determine the file name and full path of the Excel sheet
         order_file = os.path.join(orders_dir, f"Order_{order_id}.xlsx")
